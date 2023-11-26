@@ -22,11 +22,7 @@
 // Наприклад, ось так:
 
 class Key {
-  private signature: number;
-
-  constructor() {
-    this.signature = Math.random();
-  }
+  private signature: number = Math.random();
 
   public getSignature(): number {
     return this.signature;
@@ -34,11 +30,7 @@ class Key {
 }
 
 class Person {
-  private key: Key;
-
-  constructor(key: Key) {
-    this.key = key;
-  }
+  constructor(private key: Key) {}
 
   public getKey(): Key {
     return this.key;
@@ -46,9 +38,10 @@ class Person {
 }
 
 abstract class House {
-  protected door: boolean;
-  protected key: Key;
-  protected tenants: Person[];
+  protected door: boolean = false;
+  protected tenants: Person[] = [];
+
+  constructor(protected key: Key) {}
 
   public comeIn(tenant: Person): void {
     if (this.door) {
@@ -60,12 +53,8 @@ abstract class House {
 }
 
 class MyHouse extends House {
-  constructor(key: Key) {
-    super();
-  }
-
   public openDoor(key: Key) {
-    if (this.key === key) {
+    if (this.key.getSignature() === key.getSignature()) {
       this.door = true;
     }
   }
